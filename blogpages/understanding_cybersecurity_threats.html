@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Cybersecurity Threats - Some Basics</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9; /* Light gray background */
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #001f3f; /* Deep navy */
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ff4136; /* Accent color on hover */
+        }
+        .hero {
+            margin-top: 60px; /* Space for fixed header */
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(to right, #001f3f, #004080); /* Gradient background */
+            color: white;
+        }
+        .hero h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .main-content {
+            flex: 3; /* Main content takes up 3 parts */
+            padding-right: 20px;
+        }
+        .sidebar {
+            flex: 1; /* Sidebar takes up 1 part */
+            background-color: #f1f1f1; /* Light background for sidebar */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #001f3f; /* Deep navy */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lone Star Coder</h1>
+        <nav>
+            <ul>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="./bloghome.html">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Understanding Cybersecurity Threats - Some Basics</h1>
+        <p>In today’s digital landscape, cybersecurity isn’t optional—it's survival. Every day, individuals and organizations face a barrage of cyberattacks that can cripple systems, steal sensitive data, and tarnish reputations. Let’s cut through the jargon and break down the most common cybersecurity threats and how you can effectively mitigate them.</p>
+    </div>
+
+    <main class="container">
+        <div class="main-content">
+            <article>
+                <h2>Understanding Cybersecurity Threats - Some Basics</h2>
+                <p>Date: <em>2025-03-18</em></p>
+                <p>
+                    <section id="malware">
+                        <h2>1. Malware</h2>
+                        <p>
+                          <strong>What It Is:</strong> Malware—short for malicious software—is designed
+                          to infiltrate, damage, or disable computers. It comes in many forms,
+                          including viruses, worms, trojans, and spyware.
+                        </p>
+                        <p><strong>Mitigation Strategies:</strong></p>
+                        <ul>
+                          <li><strong>Regular Updates:</strong> Keep your operating system and software patched.</li>
+                          <li>
+                            <strong>Antivirus & Anti-Malware Solutions:</strong> Use reputable security software and perform regular scans.
+                          </li>
+                          <li>
+                            <strong>User Training:</strong> Educate users to avoid suspicious downloads and emails.
+                          </li>
+                        </ul>
+                      </section>
+                  
+                      <section id="phishing">
+                        <h2>2. Phishing</h2>
+                        <p>
+                          <strong>What It Is:</strong> Phishing attacks trick individuals into revealing personal
+                          or financial information by masquerading as legitimate entities. They often
+                          come via email, text, or social media.
+                        </p>
+                        <p><strong>Mitigation Strategies:</strong></p>
+                        <ul>
+                          <li>
+                            <strong>Email Filters:</strong> Implement advanced spam and phishing detection.
+                          </li>
+                          <li>
+                            <strong>Awareness Programs:</strong> Regularly train users to recognize and report suspicious communications.
+                          </li>
+                          <li>
+                            <strong>Multi-Factor Authentication (MFA):</strong> Add an extra layer of protection even if credentials are compromised.
+                          </li>
+                        </ul>
+                      </section>
+                  
+                      <section id="ransomware">
+                        <h2>3. Ransomware</h2>
+                        <p>
+                          <strong>What It Is:</strong> Ransomware encrypts your data, holding it hostage until a ransom is paid.
+                          The cost isn't just the ransom—it’s also downtime, lost productivity, and potential data breaches.
+                        </p>
+                        <p><strong>Mitigation Strategies:</strong></p>
+                        <ul>
+                          <li>
+                            <strong>Backups:</strong> Regularly back up data offline and verify the restore process.
+                          </li>
+                          <li>
+                            <strong>Network Segmentation:</strong> Limit the spread of ransomware by isolating critical systems.
+                          </li>
+                          <li>
+                            <strong>Security Protocols:</strong> Implement strict access controls and monitor for unusual file behavior.
+                          </li>
+                        </ul>
+                      </section>
+                  
+                      <section id="dos-ddos">
+                        <h2>4. Denial-of-Service (DoS) and DDoS Attacks</h2>
+                        <p>
+                          <strong>What It Is:</strong> These attacks flood a system with traffic, overwhelming resources
+                          and rendering services unavailable. They can target websites, servers, or entire networks.
+                        </p>
+                        <p><strong>Mitigation Strategies:</strong></p>
+                        <ul>
+                          <li>
+                            <strong>Traffic Analysis:</strong> Use network monitoring tools to detect abnormal traffic spikes.
+                          </li>
+                          <li>
+                            <strong>DDoS Protection Services:</strong> Employ cloud-based or on-premise solutions that can absorb large volumes of traffic.
+                          </li>
+                          <li>
+                            <strong>Redundancy:</strong> Build a resilient infrastructure with failover systems.
+                          </li>
+                        </ul>
+                      </section>
+                  
+                      <section id="insider-threats">
+                        <h2>5. Insider Threats</h2>
+                        <p>
+                          <strong>What It Is:</strong> Insider threats come from within—disgruntled employees, careless users,
+                          or compromised accounts that misuse access privileges.
+                        </p>
+                        <p><strong>Mitigation Strategies:</strong></p>
+                        <ul>
+                          <li>
+                            <strong>Access Controls:</strong> Limit user access strictly to what is necessary.
+                          </li>
+                          <li>
+                            <strong>Monitoring:</strong> Track user activity and set alerts for anomalous behavior.
+                          </li>
+                          <li>
+                            <strong>Clear Policies:</strong> Enforce strict security policies and conduct regular audits.
+                          </li>
+                        </ul>
+                      </section>
+                  
+                      <section id="apts">
+                        <h2>6. Advanced Persistent Threats (APTs)</h2>
+                        <p>
+                          <strong>What It Is:</strong> APTs are sophisticated, long-term attacks where cybercriminals infiltrate networks
+                          and remain undetected to steal data or disrupt operations over extended periods.
+                        </p>
+                        <p><strong>Mitigation Strategies:</strong></p>
+                        <ul>
+                          <li>
+                            <strong>Threat Intelligence:</strong> Stay updated on emerging threats and tactics used by attackers.
+                          </li>
+                          <li>
+                            <strong>Layered Security:</strong> Employ a multi-layered defense strategy—firewalls, intrusion detection systems, and endpoint protection.
+                          </li>
+                          <li>
+                            <strong>Regular Audits:</strong> Conduct penetration tests and vulnerability assessments frequently.
+                          </li>
+                        </ul>
+                      </section>
+                  
+                      <section id="supply-chain">
+                        <h2>7. Supply Chain Attacks</h2>
+                        <p>
+                          <strong>What It Is:</strong> These attacks compromise trusted software or hardware vendors to infiltrate your network indirectly.
+                          The target is not your system directly, but a vendor with access to your data.
+                        </p>
+                        <p><strong>Mitigation Strategies:</strong></p>
+                        <ul>
+                          <li>
+                            <strong>Vendor Vetting:</strong> Thoroughly assess the security practices of third-party vendors.
+                          </li>
+                          <li>
+                            <strong>Supply Chain Monitoring:</strong> Continuously monitor software updates and patches for any signs of tampering.
+                          </li>
+                          <li>
+                            <strong>Segmentation:</strong> Isolate vendor access to critical systems where possible.
+                          </li>
+                        </ul>
+                      </section>
+                </p>
+            </article>
+        </div>
+        <aside class="sidebar">
+            <h2>Related Links</h2>
+            <ul>
+                <li><a href="#">Nothing Here</a></li>
+            </ul>
+        </aside>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Lone Star Coder</p>
+        <p>Social Media: I do not have any social media accounts.</p>
+    </footer>
+</body>
+</html> 

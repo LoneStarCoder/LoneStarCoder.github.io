@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Entry - Lone Star Coder</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9; /* Light gray background */
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #001f3f; /* Deep navy */
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ff4136; /* Accent color on hover */
+        }
+        .hero {
+            margin-top: 60px; /* Space for fixed header */
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(to right, #001f3f, #004080); /* Gradient background */
+            color: white;
+        }
+        .hero h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .main-content {
+            flex: 3; /* Main content takes up 3 parts */
+            padding-right: 20px;
+        }
+        .sidebar {
+            flex: 1; /* Sidebar takes up 1 part */
+            background-color: #f1f1f1; /* Light background for sidebar */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #001f3f; /* Deep navy */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lone Star Coder</h1>
+        <nav>
+            <ul>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="./bloghome.html">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Blog Title Here</h1>
+        <p>Subtitle or brief description of the blog post.</p>
+    </div>
+
+    <main class="container">
+        <div class="main-content">
+            <article>
+                <h2>Blog Post Title</h2>
+                <p>Date: <em>Month Day, Year</em></p>
+                <p>Content of the blog post goes here. You can include paragraphs, images, code snippets, and more. Make sure to format your content for readability and engagement.</p>
+                <p>Continue writing your blog post here...</p>
+            </article>
+        </div>
+        <aside class="sidebar">
+            <h2>Related Links</h2>
+            <ul>
+                <li><a href="#">Nothing Here</a></li>
+            </ul>
+        </aside>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Lone Star Coder</p>
+        <p>Social Media: I do not have any social media accounts.</p>
+    </footer>
+</body>
+</html> 
