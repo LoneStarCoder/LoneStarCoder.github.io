@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post - Lone Star Coder</title>
+    <link rel="stylesheet" href="./clean-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Add Prism CSS for code highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
+    <style>
+        /* Post metadata styling */
+        .post-meta {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        /* Tags styling */
+        .post-tags {
+            margin-bottom: 20px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: #001f3f;
+            color: white;
+            padding: 3px 8px;
+            margin-right: 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+        }
+        
+        /* Code block styling */
+        pre {
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        pre[class*="language-"] {
+            margin: 0.5em 0;
+            border-left: 4px solid #001f3f;
+        }
+        
+        /* Link styling */
+        .post-content a {
+            color: #001f3f;
+            text-decoration: none;
+            border-bottom: 1px dotted #001f3f;
+            transition: all 0.3s ease;
+        }
+        
+        .post-content a:hover {
+            color: #ff4136;
+            border-bottom: 1px solid #ff4136;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lone Star Coder</h1>
+        <nav>
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./bloghome.html">Blog</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1 id="post-title">Loading post...</h1>
+        <p id="post-summary"></p>
+    </div>
+
+    <main class="container">
+        <div class="main-content" id="post-content">
+            <p>Loading post content...</p>
+        </div>
+        <aside class="sidebar">
+            <h2>Recent Posts</h2>
+            <ul id="recent-posts">
+                <li>Loading recent posts...</li>
+            </ul>
+            
+            <h2>Tags</h2>
+            <div id="all-tags">
+                <p>Loading tags...</p>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Lone Star Coder</p>
+        <p>Social Media: I do not have any social media accounts.</p>
+    </footer>
+
+    <!-- Load the required JavaScript libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <!-- Load our blog.js script -->
+    <script src="./js/blog.js"></script>
+    
+    <!-- Initialize the post page -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Initialize the blog
+                await blog.initialize();
+                
+                // Get the post slug from the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const slug = urlParams.get('slug');
+                
+                if (!slug) {
+                    document.getElementById('post-content').innerHTML = '<p>No post specified.</p>';
+                    return;
+                }
+                
+                // Load the post
+                const post = blog.getPostBySlug(slug);
+                
+                if (!post) {
+                    document.getElementById('post-content').innerHTML = '<p>Post not found.</p>';
+                    return;
+                }
+                
+                // Update page title
+                document.title = `${post.title} - Lone Star Coder`;
+                
+                // Update hero section
+                document.getElementById('post-title').textContent = post.title;
+                document.getElementById('post-summary').textContent = post.summary;
+                
+                // Render post content
+                blog.renderPost('post-content', slug);
+                
+                // Render recent posts
+                const recentPosts = blog.getPosts().slice(0, 5);
+                const recentPostsElement = document.getElementById('recent-posts');
+                
+                if (recentPostsElement) {
+                    recentPostsElement.innerHTML = recentPosts.map(post => 
+                        `<li><a href="./post.html?slug=${post.slug}">${post.title}</a></li>`
+                    ).join('');
+                }
+                
+                // Render all tags
+                const allTags = new Set();
+                blog.getPosts().forEach(post => {
+                    post.tags.forEach(tag => allTags.add(tag));
+                });
+                
+                const allTagsElement = document.getElementById('all-tags');
+                
+                if (allTagsElement && allTags.size > 0) {
+                    allTagsElement.innerHTML = Array.from(allTags).map(tag => 
+                        `<span class="tag">${tag}</span>`
+                    ).join(' ');
+                } else if (allTagsElement) {
+                    allTagsElement.innerHTML = '<p>No tags found.</p>';
+                }
+            } catch (error) {
+                console.error("Error displaying post:", error);
+                
+                // Fallback: Display hardcoded post content based on the slug
+                const urlParams = new URLSearchParams(window.location.search);
+                const slug = urlParams.get('slug');
+                
+                if (!slug) {
+                    document.getElementById('post-content').innerHTML = '<p>No post specified.</p>';
+                    return;
+                }
+                
+                // Update recent posts with hardcoded values
+                const recentPostsElement = document.getElementById('recent-posts');
+                if (recentPostsElement) {
+                    recentPostsElement.innerHTML = `
+                        <li><a href="./post.html?slug=daisychainedscomgatewayserverremoval">SCOM Daisy-chained Gateway Server Removal</a></li>
+                        <li><a href="./post.html?slug=understanding_cybersecurity_threats">Understanding Cybersecurity Threats - Some Basics</a></li>
+                    `;
+                }
+                
+                // Update tags with hardcoded values
+                const allTagsElement = document.getElementById('all-tags');
+                if (allTagsElement) {
+                    allTagsElement.innerHTML = `
+                        <span class="tag">SCOM</span>
+                        <span class="tag">Gateway</span>
+                        <span class="tag">Cybersecurity</span>
+                        <span class="tag">IT</span>
+                    `;
+                }
+                
+                // Display the appropriate hardcoded content based on slug
+                if (slug === 'daisychainedscomgatewayserverremoval') {
+                    document.title = "SCOM Daisy-chained Gateway Server Removal - Lone Star Coder";
+                    document.getElementById('post-title').textContent = "SCOM Daisy-chained Gateway Server Removal";
+                    document.getElementById('post-summary').textContent = "A straightforward guide to removing daisy-chained gateway servers in System Center Operations Manager (SCOM)";
+                    document.getElementById('post-content').innerHTML = `
+                        <article>
+                            <h2>SCOM Daisy-chained Gateway Server Removal</h2>
+                            <p class="post-meta">By Lone Star Coder on March 19, 2025</p>
+                            <div class="post-tags">
+                                <span class="tag">SCOM</span>
+                                <span class="tag">Gateway</span>
+                                <span class="tag">Server Management</span>
+                                <span class="tag">System Center</span>
+                            </div>
+                            <div class="post-content">
+                                <h1>SCOM Daisy-chained Gateway Server Removal</h1>
+                                <h2>Configuration Overview</h2>
+                                <p>Main Management Server Ms01 --&gt; Gateway01 --&gt; Gateway02</p>
+                                <h3>Gateway02 is the Daisy chained gateway</h3>
+                                <p>If you want to remove it, you have to treat gateway01 as its management server.
+                                <strong>HOWEVER</strong>, you still RUN the command on the MAIN Management Server, ms01.</p>
+                                <h2>Instructions</h2>
+                                <p>On the SCOM Management Server (ms01):</p>
+                                <ol>
+                                <li>Go to this path - <code>C:\\Software\\System Center Operations Manager 2019\\SupportTools\\AMD64</code> (or wherever SCOM is installed, and the support tools folder)</li>
+                                <li>Copy the file (<code>Microsoft.EnterpriseManagement.GatewayApprovalTool.exe</code>) to here: <code>C:\\Program Files\\Microsoft System Center\\Operations Manager\\Server</code> (or wherever SCOM is installed)</li>
+                                </ol>
+                                <h3>Removal Command (In PowerShell Elevated Prompt)</h3>
+                                <p>Run the following command:</p>
+                                <pre><code class="language-powershell">.\\Microsoft.EnterpriseManagement.GatewayApprovalTool.exe /ManagementServerName=gateway01.domain2.com /GatewayName=gatewayw02.domain3.com /Action=Delete</code></pre>
+                                <h4>Expected Output</h4>
+                                <p>You should see output similar to this:</p>
+                                <pre><code class="language-powershell">PS C:\\Program Files\\Microsoft System Center\\Operations Manager\\Server&gt; .\\Microsoft.EnterpriseManagement.GatewayApprovalTool.exe /ManagementServerName=gateway01.domain2.com /GatewayName=gatewayw02.domain3.com /Action=Delete
+# Microsoft.EnterpriseManagement.GatewayApprovalTool
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# The removal of server gatewayw02.domain3.com from the management group completed successfully.  If you have not already uninstalled the Gateway Server from gatewayw02.domain3.com, it may become a managed agent depending on your Auto Approval configuration.
+# If this is the case, you will need to uninstall it from the Agent Management view.
+PS C:\\Program Files\\Microsoft System Center\\Operations Manager\\Server&gt;</code></pre>
+                                <h2>References</h2>
+                                <ul>
+                                <li><a href="https://blakedrumm.com/blog/how-to-decommission-scom-gateway/">Blake Drumm's Guide: How to Decommission SCOM Gateway</a></li>
+                                <li><a href="https://learn.microsoft.com/en-us/system-center/scom/remove-gateway-server?view=sc-om-2025">Microsoft Docs: Remove a Gateway Server</a></li>
+                                </ul>
+                                <h2>Important Notes</h2>
+                                <p>After removing the gateway server, you may need to check the Agent Management view if the server appears as a managed agent due to Auto Approval settings. If this happens, you'll need to uninstall it from there as well.</p>
+                            </div>
+                        </article>
+                    `;
+                    
+                    // Initialize code highlighting
+                    if (typeof Prism !== 'undefined') {
+                        Prism.highlightAll();
+                    }
+                } else if (slug === 'understanding_cybersecurity_threats') {
+                    document.title = "Understanding Cybersecurity Threats - Some Basics - Lone Star Coder";
+                    document.getElementById('post-title').textContent = "Understanding Cybersecurity Threats - Some Basics";
+                    document.getElementById('post-summary').textContent = "In this post, we explore the various types of cybersecurity threats and how to mitigate them effectively";
+                    document.getElementById('post-content').innerHTML = `
+                        <article>
+                            <h2>Understanding Cybersecurity Threats - Some Basics</h2>
+                            <p class="post-meta">By Lone Star Coder on March 15, 2025</p>
+                            <div class="post-tags">
+                                <span class="tag">Cybersecurity</span>
+                                <span class="tag">Threats</span>
+                                <span class="tag">Security</span>
+                                <span class="tag">IT</span>
+                            </div>
+                            <div class="post-content">
+                                <p>In today's digital landscape, cybersecurity isn't optional—it's survival. Every day, individuals and organizations face a barrage of cyberattacks that can cripple systems, steal sensitive data, and tarnish reputations. Let's break down the most common cybersecurity threats and how you can effectively mitigate them.</p>
+                                <h2>Common Cybersecurity Threats</h2>
+                                <h3>1. Malware</h3>
+                                <p>Malware is malicious software designed to harm or exploit any programmable device, service, or network. Types include:</p>
+                                <ul>
+                                <li><strong>Viruses</strong>: Self-replicating programs that attach to clean files and spread throughout a computer system</li>
+                                <li><strong>Trojans</strong>: Malware disguised as legitimate software</li>
+                                <li><strong>Ransomware</strong>: Software that locks or encrypts data until a ransom is paid</li>
+                                <li><strong>Spyware</strong>: Programs that secretly record your activities</li>
+                                <li><strong>Worms</strong>: Self-replicating malware that spreads to other computers</li>
+                                </ul>
+                                <h3>2. Phishing Attacks</h3>
+                                <p>Phishing involves tricking users into revealing sensitive information through seemingly legitimate communication channels. These attacks often use:</p>
+                                <ul>
+                                <li>Fake emails from trusted entities</li>
+                                <li>Spoofed websites</li>
+                                <li>Urgent requests for personal information</li>
+                                <li>Too-good-to-be-true offers</li>
+                                </ul>
+                                <h2>Mitigation Strategies</h2>
+                                <h3>For Individuals</h3>
+                                <ol>
+                                <li><strong>Use Strong, Unique Passwords</strong>
+                                <ul>
+                                <li>Utilize password managers</li>
+                                <li>Enable multi-factor authentication (MFA)</li>
+                                </ul>
+                                </li>
+                                <li><strong>Keep Software Updated</strong>
+                                <ul>
+                                <li>Apply security patches promptly</li>
+                                <li>Enable automatic updates when possible</li>
+                                </ul>
+                                </li>
+                                </ol>
+                                <h3>For Organizations</h3>
+                                <ol>
+                                <li><strong>Implement Defense in Depth</strong>
+                                <ul>
+                                <li>Multiple security layers</li>
+                                <li>Network segmentation</li>
+                                <li>Principle of least privilege</li>
+                                </ul>
+                                </li>
+                                <li><strong>Regular Security Assessments</strong>
+                                <ul>
+                                <li>Vulnerability scanning</li>
+                                <li>Penetration testing</li>
+                                <li>Security audits</li>
+                                </ul>
+                                </li>
+                                </ol>
+                                <h2>Conclusion</h2>
+                                <p>Cybersecurity is an ongoing process, not a one-time solution. By understanding the threat landscape and implementing appropriate defenses, you can significantly reduce your risk exposure. Remember that security is only as strong as its weakest link—often human behavior—so education and vigilance are just as important as technical controls.</p>
+                                <p>Stay safe, stay informed, and remember that in cybersecurity, prevention is always better than cure.</p>
+                            </div>
+                        </article>
+                    `;
+                    
+                    // Initialize code highlighting
+                    if (typeof Prism !== 'undefined') {
+                        Prism.highlightAll();
+                    }
+                } else {
+                    document.getElementById('post-content').innerHTML = '<p>Post not found.</p>';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

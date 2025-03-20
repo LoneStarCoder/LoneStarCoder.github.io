@@ -6,6 +6,45 @@
     <title>Blog - Lone Star Coder</title>
     <link rel="stylesheet" href="clean-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        .post-meta {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: #001f3f;
+            color: white;
+            padding: 3px 8px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border-radius: 3px;
+            font-size: 0.8em;
+        }
+        
+        #pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .page-btn {
+            padding: 5px 10px;
+            background-color: #001f3f;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        
+        .page-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -28,25 +67,21 @@
     <main class="container">
         <div class="main-content">
             <h2>Latest Blog Posts</h2>
-            <article>
-                <h3>SCOM Daisy-chained Gateway Server Removal</h3>
-                <p>A straightforward guide to removing daisy-chained gateway servers in System Center Operations Manager (SCOM)...</p>
-                <a href="./blogpages/daisychainedscomgatewayserverremoval.html">Read more</a>
-            </article>
-            <article>
-                <h3>Understanding Cybersecurity Threats - Some Basics</h3>
-                <p>In this post, we explore the various types of cybersecurity threats and how to mitigate them...</p>
-                <a href="./blogpages/understanding_cybersecurity_threats.html">Read more</a>
-            </article>
+            <div id="blog-posts">
+                <p>Loading blog posts...</p>
+            </div>
+            <div id="pagination">
+                <button id="prev-page" class="page-btn" disabled>Previous</button>
+                <span id="page-info">Page 1</span>
+                <button id="next-page" class="page-btn" disabled>Next</button>
+            </div>
         </div>
         <aside class="sidebar">
-            <h2>Related Links</h2>
-            <ul>
-                <li><a href="#">Blog 1: Cybersecurity Basics</a></li>
-                <li><a href="#">Blog 2: Advanced PowerShell Techniques</a></li>
-                <li><a href="#">Blog 3: IT Infrastructure Management</a></li>
-                <li><a href="#">Blog 4: Incident Response Strategies</a></li>
-            </ul>
+            <h2>Tags</h2>
+            <div id="all-tags">
+                <p>Loading tags...</p>
+            </div>
+            
             <h2>Previous Blogs</h2>
             <ul>
                 <li><a href="https://brodykilpatrickblog.wordpress.com/">Brody Kilpatrick's Blog</a></li>
@@ -60,5 +95,106 @@
         <p>&copy; 2025 Lone Star Coder</p>
         <p>Social Media: I do not have any social media accounts. </p>
     </footer>
+    
+    <!-- Load the required JavaScript libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Load our blog.js script -->
+    <script src="js/blog.js"></script>
+    
+    <!-- Initialize the blog listing page -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Initialize the blog
+                await blog.initialize();
+                
+                // Get the current page from URL or default to 1
+                const urlParams = new URLSearchParams(window.location.search);
+                let currentPage = parseInt(urlParams.get('page')) || 1;
+                if (currentPage < 1) currentPage = 1;
+                
+                // Render the blog posts
+                blog.renderBlogListing('blog-posts', currentPage);
+                
+                // Update pagination
+                const totalPosts = blog.getPosts().length;
+                const totalPages = Math.ceil(totalPosts / config.postsPerPage);
+                
+                document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+                
+                const prevButton = document.getElementById('prev-page');
+                const nextButton = document.getElementById('next-page');
+                
+                // Enable/disable pagination buttons
+                prevButton.disabled = currentPage <= 1;
+                nextButton.disabled = currentPage >= totalPages;
+                
+                // Set up button actions
+                prevButton.addEventListener('click', function() {
+                    if (currentPage > 1) {
+                        window.location.href = `bloghome.html?page=${currentPage - 1}`;
+                    }
+                });
+                
+                nextButton.addEventListener('click', function() {
+                    if (currentPage < totalPages) {
+                        window.location.href = `bloghome.html?page=${currentPage + 1}`;
+                    }
+                });
+                
+                // Render all tags
+                const allTags = new Set();
+                blog.getPosts().forEach(post => {
+                    post.tags.forEach(tag => allTags.add(tag));
+                });
+                
+                const allTagsElement = document.getElementById('all-tags');
+                
+                if (allTagsElement && allTags.size > 0) {
+                    allTagsElement.innerHTML = Array.from(allTags).map(tag => 
+                        `<span class="tag">${tag}</span>`
+                    ).join(' ');
+                } else if (allTagsElement) {
+                    allTagsElement.innerHTML = '<p>No tags found.</p>';
+                }
+            } catch (error) {
+                console.error("Error initializing blog:", error);
+                // Fallback: Display hardcoded posts if dynamic loading fails
+                const blogPostsElement = document.getElementById('blog-posts');
+                if (blogPostsElement) {
+                    blogPostsElement.innerHTML = `
+                        <article>
+                            <h3>SCOM Daisy-chained Gateway Server Removal</h3>
+                            <p class="post-meta">By Lone Star Coder on March 19, 2025</p>
+                            <p>A straightforward guide to removing daisy-chained gateway servers in System Center Operations Manager (SCOM)</p>
+                            <a href="post.html?slug=daisychainedscomgatewayserverremoval">Read more</a>
+                        </article>
+                        <article>
+                            <h3>Understanding Cybersecurity Threats - Some Basics</h3>
+                            <p class="post-meta">By Lone Star Coder on March 15, 2025</p>
+                            <p>In this post, we explore the various types of cybersecurity threats and how to mitigate them effectively</p>
+                            <a href="post.html?slug=understanding_cybersecurity_threats">Read more</a>
+                        </article>
+                    `;
+                    
+                    // Also add fallback tags
+                    const allTagsElement = document.getElementById('all-tags');
+                    if (allTagsElement) {
+                        allTagsElement.innerHTML = `
+                            <span class="tag">SCOM</span>
+                            <span class="tag">Gateway</span>
+                            <span class="tag">Server Management</span>
+                            <span class="tag">System Center</span>
+                            <span class="tag">Cybersecurity</span>
+                            <span class="tag">Threats</span>
+                            <span class="tag">Security</span>
+                            <span class="tag">IT</span>
+                        `;
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html> 
