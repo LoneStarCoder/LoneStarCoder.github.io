@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Index | Carnivore Core</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #0a0a0a;
+      color: #fefefe;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #ff4040;
+      border-bottom: 2px solid #ff4040;
+      padding-bottom: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .post {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #333;
+    }
+    .post-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .post-title a {
+      color: #ff4040;
+      text-decoration: none;
+    }
+    .post-title a:hover {
+      text-decoration: underline;
+    }
+    .date {
+      font-size: 0.875rem;
+      color: #aaa;
+      margin-bottom: 0.5rem;
+    }
+    .excerpt {
+      color: #ddd;
+    }
+    .pagination {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .pagination button {
+      background: #ff4040;
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      margin: 0 0.25rem;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .pagination button:disabled {
+      background: #444;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Blog</h1>
+    <div id="posts"></div>
+    <div class="pagination">
+      <button id="prev" disabled>Previous</button>
+      <button id="next">Next</button>
+    </div>
+  </div>
+
+  <script>
+    const POSTS_PER_PAGE = 2;
+    let currentPage = 1;
+    let postsData = [];
+
+    function renderPosts() {
+      const postsContainer = document.getElementById('posts');
+      postsContainer.innerHTML = '';
+
+      const start = (currentPage - 1) * POSTS_PER_PAGE;
+      const end = start + POSTS_PER_PAGE;
+      const currentPosts = postsData.slice(start, end);
+
+      currentPosts.forEach(post => {
+        const postEl = document.createElement('div');
+        postEl.className = 'post';
+        postEl.innerHTML = `
+          <div class="post-title">
+            <a href="post.html?slug=${post.slug}">${post.title}</a>
+          </div>
+          <div class="date">${post.date}</div>
+          <div class="excerpt">${post.excerpt}</div>
+        `;
+        postsContainer.appendChild(postEl);
+      });
+
+      document.getElementById('prev').disabled = currentPage === 1;
+      document.getElementById('next').disabled = end >= postsData.length;
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPosts();
+      }
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+      if ((currentPage * POSTS_PER_PAGE) < postsData.length) {
+        currentPage++;
+        renderPosts();
+      }
+    });
+
+    fetch('posts/index.json')
+      .then(res => res.json())
+      .then(data => {
+        postsData = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        renderPosts();
+      });
+  </script>
+</body>
+</html>
+

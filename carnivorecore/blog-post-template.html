@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Post | Carnivore Core</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #0a0a0a;
+      color: #fefefe;
+      line-height: 1.6;
+      padding: 2rem;
+    }
+    article {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #111;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 64, 64, 0.2);
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #ff4040;
+      border-bottom: 2px solid #ff4040;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .meta {
+      font-size: 0.875rem;
+      color: #bbb;
+      margin-bottom: 2rem;
+    }
+    p {
+      margin-bottom: 1.5rem;
+    }
+    a {
+      color: #ff4040;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <h1 id="post-title">Loading...</h1>
+    <div class="meta" id="post-meta"></div>
+    <div id="post-content">Please wait while we load your post.</div>
+  </article>
+
+  <script>
+    // Simulated blog post data
+    const posts = {
+      1: {
+        title: "Why Fat is Fuel",
+        date: "March 20, 2025",
+        content: `<p>Fat is not the enemy. It’s the body’s most efficient energy source, especially when carbohydrates are removed. This article breaks down why animal fat is crucial for metabolic health, brain function, and hormonal balance.</p><p>By switching to fat as fuel, you stabilize energy, reduce cravings, and improve endurance. Ditch the sugar rollercoaster.</p>`
+      },
+      2: {
+        title: "Debunking the Cholesterol Myth",
+        date: "March 15, 2025",
+        content: `<p>For decades, cholesterol has been demonized. But new research proves dietary cholesterol isn’t the villain—it’s essential. Learn why saturated fat and red meat have been wrongly accused and how they actually support heart and brain health.</p>`
+      },
+      3: {
+        title: "Carnivore vs. Keto: The Real Difference",
+        date: "March 10, 2025",
+        content: `<p>Both diets cut carbs, but the carnivore diet takes it further—removing plant toxins, fiber, and inflammatory foods entirely. This post explores why carnivore is simpler, cleaner, and more effective for long-term health.</p>`
+      }
+    };
+
+    // Get post ID from URL (e.g., ?id=1)
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+
+    // Select HTML elements
+    const titleEl = document.getElementById('post-title');
+    const metaEl = document.getElementById('post-meta');
+    const contentEl = document.getElementById('post-content');
+
+    // Load and display the post
+    if (posts[postId]) {
+      const post = posts[postId];
+      titleEl.textContent = post.title;
+      metaEl.textContent = `Published on ${post.date}`;
+      contentEl.innerHTML = post.content;
+    } else {
+      titleEl.textContent = "Post Not Found";
+      contentEl.innerHTML = "<p>We couldn't find the post you're looking for.</p>";
+    }
+  </script>
+</body>
+</html>
+

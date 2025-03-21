@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post | Carnivore Core</title>
+  <meta name="description" content="Carnivore Core blog post - in-depth articles on carnivore living, fat-fueled energy, and ancestral nutrition." />
+  <meta property="og:title" content="Carnivore Core Post" />
+  <meta property="og:description" content="Full post from Carnivore Core on the carnivore diet lifestyle and performance." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://yourdomain.com/post.html" />
+  <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Carnivore Core Post" />
+  <meta name="twitter:description" content="Read full post on the carnivore way of life." />
+  <meta name="twitter:image" content="https://yourdomain.com/og-image.jpg" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #0a0a0a;
+      color: #fefefe;
+      line-height: 1.6;
+    }
+    header {
+      background: #1a1a1a;
+      padding: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+    }
+    header p.tagline {
+      font-size: 1.25rem;
+      color: #cccccc;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+    nav a {
+      color: #fefefe;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ff4040;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h2 {
+      font-size: 2.5rem;
+      color: #ff4040;
+      border-bottom: 2px solid #ff4040;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .meta {
+      font-size: 0.875rem;
+      color: #bbb;
+      margin-bottom: 2rem;
+    }
+    .content p {
+      margin-bottom: 1.5rem;
+    }
+    #post-image {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      display: none;
+    }
+    footer {
+      background: #1a1a1a;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Carnivore Core</h1>
+    <p class="tagline">Built on Meat. Powered by Nature.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+    </nav>
+  </header>
+  <div class="container">
+    <img id="post-image" alt="Featured image">
+    <h2 id="post-title">Loading...</h2>
+    <div class="meta" id="post-meta"></div>
+    <div class="content" id="post-content">Please wait while we load your post.</div>
+  </div>
+  <footer>
+    &copy; 2025 Carnivore Core. All rights reserved.
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+
+    const titleEl = document.getElementById('post-title');
+    const metaEl = document.getElementById('post-meta');
+    const contentEl = document.getElementById('post-content');
+    const imageEl = document.getElementById('post-image');
+
+    if (!slug) {
+      titleEl.textContent = "No post specified";
+      contentEl.innerHTML = "<p>Missing post slug.</p>";
+    } else {
+      fetch(`posts/${slug}.md`)
+        .then(res => res.text())
+        .then(md => {
+          const match = /---([\s\S]*?)---/.exec(md);
+          const content = md.replace(/---([\s\S]*?)---/, '').trim();
+
+          let frontmatter = {};
+          if (match && match[1]) {
+            match[1].trim().split('\n').forEach(line => {
+              const [key, value] = line.split(':').map(s => s.trim());
+              frontmatter[key] = value.replace(/^"|"$/g, '');
+            });
+          }
+
+          titleEl.textContent = frontmatter.title || 'Untitled';
+          metaEl.textContent = frontmatter.date ? `Published on ${frontmatter.date}` : '';
+          contentEl.innerHTML = marked.parse(content);
+
+          if (frontmatter.image) {
+            imageEl.src = frontmatter.image;
+            imageEl.style.display = 'block';
+          }
+        })
+        .catch(() => {
+          titleEl.textContent = "Post Not Found";
+          contentEl.innerHTML = "<p>Could not load the blog post.</p>";
+        });
+    }
+  </script>
+</body>
+</html>
+
