@@ -1,3 +1,12 @@
+---
+title: SCOM Entra Prevent New SMS and Call MFA Methods
+date: 2025-04-28
+author: Lone Star Coder
+summary: A simple way to remove new SMS and Call MFA Methods while keeping existing SMS and Call MFA methods.
+tags: Entra, Azure, MFA, SMS, Call, O365, Security, Authentication
+---
+
+# Entra Prevent New SMS and Call MFA Methods
 1. Move your tenant to the ** Authentication methods policy** (Entra ID  > Authentication methods > Policies). ([Manage authentication methods - Microsoft Entra ID | Microsoft Learn](https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-methods-manage))  
 
 2. Create a *static* security group – e.g. **Legacy-Phone-MFA** – and put every user who already has an SMS or Voice-Call method in it (script below). Leave new hires out.  
